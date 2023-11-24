@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Everything App</title>
+</head>
+<body>
+    <h1>weather</h1>
+    <div class="inputs">
+        <input type="text" placeholder="search city"><button>search</button>
+    </div>
+    <div id="outputs">
+        
+    </div>
+</body>
+</html>
+
+<script>
+    function get() {
+        const search = document.querySelector('button');
+        search.addEventListener('click', get)
+        const city = document.querySelector('input').value;
+        fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=bb16b5123a9a22ed6e24150284a6d7a2`)
+        .then(response => response.json())
+        .then(data => {
+            const hottest = data.main.temp_max;
+            const coldest = data.main.temp_min;
+            const description = data.weather[0].description;
+
+            const outputs = document.getElementById('outputs');
+            outputs.innerHTML = `
+                <p>hottest: ${hottest}</p>
+                <p>coldest: ${coldest}</p>
+                <p>cloud: ${description}</p>
+            `
+        });
+    }
+    get();
+</script>
